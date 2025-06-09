@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo11 – Image Processing</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Demo11 – Remove Background + Remove Shirt</h1>
+
+        <form id="uploadForm" enctype="multipart/form-data">
+            <label for="imageUpload" class="upload-button">
+                📤 Upload Image
+                <input type="file" id="imageUpload" name="file" accept="image/*" style="display: none;">
+            </label>
+            <p id="fileName"></p>
+        </form>
+
+        <div id="loading" style="display: none;">Processing image...</div>
+
+        <div id="resultContainer" style="display: none;">
+            <h2>Processed Image</h2>
+            <img id="processedImage" src="" alt="Processed Image" class="processed-image">
+            <div class="slider-group">
+                <label for="brightnessSlider">🔧 Adjust acceptable brightness (L_ref +)</label>
+                <input type="range" id="brightnessSlider" min="0" max="50" value="5" step="1">
+                <span id="sliderValue">5</span>
+            </div>
+            <button id="nextButton">✅ Next</button>
+        </div>
+
+        <div id="errorContainer" style="color: red; display: none;"></div>
+    </div>
+
+    <script>
+        const uploadForm = document.getElementById('uploadForm');
+        const imageUpload = document.getElementById('imageUpload');
+        const fileNameSpan = document.getElementById('fileName');
+        const loadingDiv = document.getElementById('loading');
+        const resultContainer = document.getElementById('resultContainer');
+        const processedImage = document.getElementById('processedImage');
+        const brightnessSlider = document.getElementById('brightnessSlider');
+        const sliderValueSpan = document.getElementById('sliderValue');
+        const nextButton = document.getElementById('nextButton');
+        const errorContainer = document.getElementById('errorContainer');
+
+        imageUpload.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const file = this.files[0];
+                fileNameSpan.textContent = `Selected file: ${file.name}`;
+                uploadImage(file);
+            }
+        });
+
+        brightnessSlider.addEventListener('input', function() {
+            sliderValueSpan.textContent = this.value;
+            updateImage(this.value);
+        });
+
+        nextButton.addEventListener('click', function() {
+            alert('Navigation to next page (Crop Left-Right) would be implemented here!');
+            // In a real app, you would send a request to a new Flask route
+            // to store the current processed image and render the next page.
+            // window.location.href = '/crop_lr';
+        });
+
+        async function uploadImage(file) {
+            loadingDiv.style.display = 'block';
+            resultContainer.style.display = 'none';
+            errorContainer.style.display = 'none';
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch('/process', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    processedImage.src = `data:image/png;base64,${data.image}`;
+                    resultContainer.style.display = 'block';
+                    brightnessSlider.value = 5; // Reset slider
+                    sliderValueSpan.textContent = 5; // Reset slider text
+                } else {
+                    errorContainer.textContent = `Error: ${data.error}`;
+                    errorContainer.style.display = 'block';
+                }
+            } catch (error) {
+                errorContainer.textContent = `Network error: ${error}`;
+                errorContainer.style.display = 'block';
+            } finally {
+                loadingDiv.style.display = 'none';
+            }
+        }
+
+        async function updateImage(sliderValue) {
+            loadingDiv.style.display = 'block';
+            errorContainer.style.display = 'none';
+
+            try {
+                const response = await fetch('/update_image', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ value: parseInt(sliderValue) })
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    processedImage.src = `data:image/png;base64,${data.image}`;
+                } else {
+                    errorContainer.textContent = `Error updating image: ${data.error}`;
+                    errorContainer.style.display = 'block';
+                }
+            } catch (error) {
+                errorContainer.textContent = `Network error updating image: ${error}`;
+                errorContainer.style.display = 'block';
+            } finally {
+                loadingDiv.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
