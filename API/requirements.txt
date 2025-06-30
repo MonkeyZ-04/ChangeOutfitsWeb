@@ -1,0 +1,16 @@
+torch
+torchvision
+opencv-python
+numpy
+matplotlib
+Pillow
+requests
+tqdm
+rembg
+segment-anything
+onnxruntime
+uvicorn
+fastapi
+requests
+tqdm
+python-multipart

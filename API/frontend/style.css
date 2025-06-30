@@ -1,0 +1,56 @@
+/* frontend/style.css */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  background: #f9f9f9;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+}
+
+input[type="file"] {
+  margin: 10px 0;
+}
+
+button {
+  padding: 8px 16px;
+  border: none;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+.hidden {
+  display: none;
+}
+
+.images {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.images img {
+  max-width: 280px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#errorMsg {
+  color: #c00;
+  margin-top: 10px;
+}
