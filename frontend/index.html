@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Replace Clothes Demo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>🧥 เปลี่ยนเสื้ออัตโนมัติ</h1>
+
+  <!-- ⭐ เลือกรูป -->
+  <input type="file" id="fileInput" accept="image/*">
+
+  <!-- ⭐ เลือกเสื้อ -->
+  <select id="shirtSelect">
+    <option value="m_white.png">เสื้อยืด Support (ชาย)</option>
+    <option value="f_white.png">เสื้อยืด Support (หญิง)</option>
+    <option value="guard_gray.png">รปภ. ชาย แขนยาวเทา</option>
+    <option value="guard_tie.png">รปภ. ผูกเนคไท</option>
+    <option value="guard_khaki.png">รปภ. ชาย กากี</option>
+  </select>
+
+  <!-- ⭐ ปุ่ม Submit -->
+  <button id="submitBtn">Submit</button>
+
+  <!-- ⭐ แถบโหลด -->
+<div id="loading" class="hidden">
+  <progress id="progressBar" max="100" value="0"></progress>
+  <span id="progressPercent">0%</span>
+</div>
+
+
+  <div id="canvas">
+    <img id="apiImg" draggable="true" />
+    <img id="shirtImg" />
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
