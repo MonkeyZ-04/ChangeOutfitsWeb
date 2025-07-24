@@ -1,0 +1,14 @@
+fastapi
+uvicorn[standard]
+python-multipart
+torch
+opencv-python-headless
+numpy
+matplotlib
+pathlib
+requests
+tqdm
+Pillow
+rembg
+segment-anything-py
+certifi

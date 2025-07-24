@@ -1,41 +1,55 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <title>Replace Clothes Demo</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ลองเปลี่ยนเสื้อผ้า</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>🧥 เปลี่ยนเสื้ออัตโนมัติ</h1>
+    <div class="container">
+        <h1>ลองเปลี่ยนเสื้อผ้าด้วย AI</h1>
+        <p>อัปโหลดรูปภาพของคุณ (ครึ่งตัว) เพื่อลองเสื้อตัวใหม่</p>
 
-  <!-- ⭐ เลือกรูป -->
-  <input type="file" id="fileInput" accept="image/*">
+        <div class="upload-section">
+            <div class="input-group">
+                <label for="image-upload">อัปโหลดรูปคุณ:</label>
+                <input type="file" id="image-upload" accept="image/*">
+            </div>
+            <button id="upload-btn">ประมวลผลรูปภาพ</button>
+        </div>
 
-  <!-- ⭐ เลือกเสื้อ -->
-  <select id="shirtSelect">
-    <option value="m_white.png">เสื้อยืด Support (ชาย)</option>
-    <option value="f_white.png">เสื้อยืด Support (หญิง)</option>
-    <option value="guard_gray.png">รปภ. ชาย แขนยาวเทา</option>
-    <option value="guard_tie.png">รปภ. ผูกเนคไท</option>
-    <option value="guard_khaki.png">รปภ. ชาย กากี</option>
-  </select>
+        <div id="loader" class="loader" style="display: none;"></div>
 
-  <!-- ⭐ ปุ่ม Submit -->
-  <button id="submitBtn">Submit</button>
+        <div id="result-container" class="result-container" style="display: none;">
+            <h2>ผลลัพธ์</h2>
+            <div class="image-wrapper">
+                <img id="shirt-img" src="" alt="เสื้อ">
+                <img id="person-img" src="" alt="คนที่ตัดเสื้อแล้ว">
+            </div>
 
-  <!-- ⭐ แถบโหลด -->
-<div id="loading" class="hidden">
-  <progress id="progressBar" max="100" value="0"></progress>
-  <span id="progressPercent">0%</span>
-</div>
-
-
-  <div id="canvas">
-    <img id="apiImg" draggable="true" />
-    <img id="shirtImg" />
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
-  <script src="app.js"></script>
+            <div id="controls-section" class="controls-section">
+                <div class="control-group">
+                    <label for="shirt-selector">เลือกเสื้อ</label>
+                    <select id="shirt-selector"></select>
+                </div>
+                <div class="control-group">
+                    <label for="scale-slider">ปรับขนาด</label>
+                    <input type="range" id="scale-slider" min="0.5" max="2" value="1" step="0.01">
+                </div>
+                <div class="control-group">
+                    <label for="x-slider">เลื่อนซ้าย-ขวา</label>
+                    <input type="range" id="x-slider" min="-100" max="100" value="0" step="1">
+                </div>
+                <div class="control-group">
+                    <label for="y-slider">เลื่อนบน-ล่าง</label>
+                    <input type="range" id="y-slider" min="-100" max="100" value="0" step="1">
+                </div>
+                <button id="reset-btn">ตั้งค่าเริ่มต้น</button>
+                <button id="download-btn">ดาวน์โหลดรูปภาพ</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
